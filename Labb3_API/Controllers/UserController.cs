@@ -33,17 +33,21 @@ namespace Labb3_API.Controllers
         }
 
         //Get interest by user's id
-        [HttpGet("GetInterestById/{id}", Name = "GetInterestByUserId")]
+        [HttpGet("GetInterestById/{id}")]
         public async Task<ActionResult<User>> GetInterestById(int id)
         {
             var user = await _ctx.Users
                 .AsNoTracking()
-                 .Select(i => new
+                .Where(u => u.Id == id)
+                 .Select(u => new
                  {
-                     i.FullName,
-                     Interest = i.Links.Select(l => new
+                     u.Id,
+                     u.FullName,
+                     Interest = u.Links.Select(l => new
                      {
-                         l.Interest.Name
+                         l.InterestId,
+                         l.Interest.Name,
+                         l.Interest.Description
                      })
                  })
                 .FirstOrDefaultAsync();
@@ -61,10 +65,12 @@ namespace Labb3_API.Controllers
         {
             var user = await _ctx.Users
                 .AsNoTracking()
-                 .Select(i => new
+                .Where(u => u.Id == id)
+                 .Select(u => new
                  {
-                     i.FullName,
-                     Link = i.Links.Select(l => new
+                     u.Id,
+                     u.FullName,
+                     Link = u.Links.Select(l => new
                      {
                          l.Id,
                          l.Url
@@ -79,7 +85,7 @@ namespace Labb3_API.Controllers
             return Ok(user);
         }
 
-        [HttpPost("AddInterestInUser{id}")]
+        [HttpPost("AddInterestInUser/{id}")]
         public async Task<IActionResult>AddUsersInterest(int id, int interestId)
         {
             var userToUpdate = await _ctx.Users.FirstOrDefaultAsync(u => u.Id == id);
@@ -156,7 +162,6 @@ namespace Labb3_API.Controllers
                 InterestId = interestId,
                 Url = url
             };
-
 
             await _ctx.Links.AddAsync(addNewLink);
             await _ctx.SaveChangesAsync();
