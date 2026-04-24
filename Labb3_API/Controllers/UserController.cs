@@ -46,7 +46,7 @@ namespace Labb3_API.Controllers
                      Interest = u.Links.Select(l => new
                      {
                          l.InterestId,
-                         l.Interest.Name,
+                         l.Interest.Title,
                          l.Interest.Description
                      })
                  })
@@ -60,7 +60,7 @@ namespace Labb3_API.Controllers
         }
 
         //Get link by user's id
-        [HttpGet("GetLinkById/{id}", Name ="GetLinkByUserId")]
+        [HttpGet("GetLinkById/{id}")]
         public async Task<ActionResult<User>> GetLinkById(int id)
         {
             var user = await _ctx.Users
@@ -99,7 +99,7 @@ namespace Labb3_API.Controllers
                 return NotFound("Interest hittades inte");
             }
 
-            var linksToAdd = new Link
+            var linkToAdd = new Link
             {
                 InterestId = interestId,
                 UserId = id
@@ -110,10 +110,10 @@ namespace Labb3_API.Controllers
                 return BadRequest("User har redan detta intresse");
             }
 
-            await _ctx.Links.AddAsync(linksToAdd);
+            await _ctx.Links.AddAsync(linkToAdd);
             await _ctx.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetInterestById), new { id = linksToAdd.Id }, linksToAdd); 
+            return CreatedAtAction(nameof(GetInterestById), new {id}, linkToAdd); 
         }
         //Add new link
         [HttpPost("AddNewLink")]
