@@ -3,6 +3,7 @@ using Labb3_API.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Labb3_API.Migrations
 {
     [DbContext(typeof(InterestDbContext))]
-    partial class InterestDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260427091938_fixedWrongSpelling")]
+    partial class fixedWrongSpelling
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -238,7 +241,7 @@ namespace Labb3_API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserInterests");
+                    b.ToTable("UserInterest");
 
                     b.HasData(
                         new
@@ -298,19 +301,19 @@ namespace Labb3_API.Migrations
 
             modelBuilder.Entity("Labb3_API.Models.UserInterest", b =>
                 {
-                    b.HasOne("Labb3_API.Models.Interest", "Interest")
+                    b.HasOne("Labb3_API.Models.Interest", "Interests")
                         .WithMany("UserInterests")
                         .HasForeignKey("InterestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Labb3_API.Models.User", "User")
-                        .WithMany("UserInterests")
+                        .WithMany("UnserInterests")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Interest");
+                    b.Navigation("Interests");
 
                     b.Navigation("User");
                 });
@@ -322,7 +325,7 @@ namespace Labb3_API.Migrations
 
             modelBuilder.Entity("Labb3_API.Models.User", b =>
                 {
-                    b.Navigation("UserInterests");
+                    b.Navigation("UnserInterests");
                 });
 
             modelBuilder.Entity("Labb3_API.Models.UserInterest", b =>

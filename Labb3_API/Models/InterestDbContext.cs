@@ -11,6 +11,7 @@ namespace Labb3_API.Models
         public DbSet<User> Users { get; set; }
         public DbSet<Interest> Interests { get; set; }
         public DbSet<Link> Links { get; set; }
+        public DbSet<UserInterest> UserInterests { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -41,20 +42,31 @@ namespace Labb3_API.Models
                 new Interest { Id = 7, Title= "Läsning", Description = "Läsa böcker, artiklar eller annan litteratur" }
             );
 
+            modelBuilder.Entity<UserInterest>().HasData(
+           new UserInterest { Id = 1, UserId = 1, InterestId = 1 },
+                new UserInterest { Id = 2, UserId = 1, InterestId = 3 },
+                new UserInterest { Id = 3, UserId = 2, InterestId = 2 },
+                new UserInterest { Id = 4, UserId = 2, InterestId = 6 },  
+                new UserInterest { Id = 5, UserId = 3, InterestId = 4 },
+                new UserInterest { Id = 6, UserId = 3, InterestId = 5 },
+                new UserInterest { Id = 7, UserId = 3, InterestId = 7 }
+            );
+
             modelBuilder.Entity<Link>().HasData(
                 // Anna
-           new Link { Id = 1, Url = "https://github.com", UserId = 1, InterestId = 1 }, // Programmering
-                new Link { Id = 2, Url = "https://spotify.com", UserId = 1, InterestId = 3 }, // Musik
+           new Link { Id = 1, Url = "https://github.com", UserInterestId = 1 }, // Programmering
+                new Link { Id = 2, Url = "https://spotify.com", UserInterestId = 2 }, // Musik
 
                 // Erik
-                new Link { Id = 3, Url = "https://gymshark.com", UserId = 2, InterestId = 2 }, // Träning
-                new Link { Id = 4, Url = "https://twitch.tv", UserId = 2, InterestId = 6 }, // Gaming
+                new Link { Id = 3, Url = "https://gymshark.com", UserInterestId = 3 }, // Träning
+                new Link { Id = 4, Url = "https://twitch.tv", UserInterestId = 4 }, // Gaming
 
                 // Sara
-                new Link { Id = 5, Url = "https://tripadvisor.com", UserId = 3, InterestId = 4 }, // Resor
-                new Link { Id = 6, Url = "https://foodblog.com", UserId = 3, InterestId = 5 }, // Matlagning
-                new Link { Id = 7, Url = "https://goodreads.com", UserId = 3, InterestId = 7 } // Läsning
+                new Link { Id = 5, Url = "https://tripadvisor.com", UserInterestId = 5 }, // Resor
+                new Link { Id = 6, Url = "https://foodblog.com", UserInterestId = 6 }, // Matlagning
+                new Link { Id = 7, Url = "https://goodreads.com", UserInterestId = 7 } // Läsning
             );
+
         }
     }
 }

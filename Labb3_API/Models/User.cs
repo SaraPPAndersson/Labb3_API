@@ -10,6 +10,7 @@ namespace Labb3_API.Models
         public string? FullName { get; set; }
         public string? Email { get; set; }
         public string? Phone { get; set; }
-        public ICollection<Link> Links { get; set; } = null!;
+        [JsonIgnore]
+        public ICollection<UserInterest> UserInterests { get; set; } = null!;
     }
 }

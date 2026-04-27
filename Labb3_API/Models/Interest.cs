@@ -11,7 +11,7 @@ namespace Labb3_API.Models
         [Required]
         public string? Description { get; set; }
         [JsonIgnore]
-        public ICollection<Link> Links { get; set; } = null!;
+        public ICollection<UserInterest> UserInterests { get; set; } = null!;
 
     }
 }
