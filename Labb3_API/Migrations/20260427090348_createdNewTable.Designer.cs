@@ -3,6 +3,7 @@ using Labb3_API.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Labb3_API.Migrations
 {
     [DbContext(typeof(InterestDbContext))]
-    partial class InterestDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260427090348_createdNewTable")]
+    partial class createdNewTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,50 +108,6 @@ namespace Labb3_API.Migrations
                     b.HasIndex("UserInterestId");
 
                     b.ToTable("Links");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Url = "https://github.com",
-                            UserInterestId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Url = "https://spotify.com",
-                            UserInterestId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Url = "https://gymshark.com",
-                            UserInterestId = 3
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Url = "https://twitch.tv",
-                            UserInterestId = 4
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Url = "https://tripadvisor.com",
-                            UserInterestId = 5
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Url = "https://foodblog.com",
-                            UserInterestId = 6
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Url = "https://goodreads.com",
-                            UserInterestId = 7
-                        });
                 });
 
             modelBuilder.Entity("Labb3_API.Models.User", b =>
@@ -238,51 +197,7 @@ namespace Labb3_API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserInterests");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            InterestId = 1,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            InterestId = 3,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            InterestId = 2,
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 4,
-                            InterestId = 6,
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 5,
-                            InterestId = 4,
-                            UserId = 3
-                        },
-                        new
-                        {
-                            Id = 6,
-                            InterestId = 5,
-                            UserId = 3
-                        },
-                        new
-                        {
-                            Id = 7,
-                            InterestId = 7,
-                            UserId = 3
-                        });
+                    b.ToTable("UserInterest");
                 });
 
             modelBuilder.Entity("Labb3_API.Models.Link", b =>
@@ -298,19 +213,19 @@ namespace Labb3_API.Migrations
 
             modelBuilder.Entity("Labb3_API.Models.UserInterest", b =>
                 {
-                    b.HasOne("Labb3_API.Models.Interest", "Interest")
+                    b.HasOne("Labb3_API.Models.Interest", "Interests")
                         .WithMany("UserInterests")
                         .HasForeignKey("InterestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Labb3_API.Models.User", "User")
-                        .WithMany("UserInterests")
+                        .WithMany("UnserInterests")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Interest");
+                    b.Navigation("Interests");
 
                     b.Navigation("User");
                 });
@@ -322,7 +237,7 @@ namespace Labb3_API.Migrations
 
             modelBuilder.Entity("Labb3_API.Models.User", b =>
                 {
-                    b.Navigation("UserInterests");
+                    b.Navigation("UnserInterests");
                 });
 
             modelBuilder.Entity("Labb3_API.Models.UserInterest", b =>
