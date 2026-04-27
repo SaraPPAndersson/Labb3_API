@@ -49,7 +49,7 @@ namespace Labb3_API.Controllers
                     ui.Interest.Title,
                     ui.Interest.Description
                 ))
-                .ToList()
+                //.ToList()
                  })
                 .FirstOrDefaultAsync();
 
@@ -152,22 +152,22 @@ namespace Labb3_API.Controllers
                     InterestId = request.interestId
                 };
                 await _ctx.UserInterests.AddAsync(existingUserInterest);
-                await _ctx.SaveChangesAsync();
+                //await _ctx.SaveChangesAsync(); 
 
             }
-
-            if (await _ctx.Links.AnyAsync(l => l.UserInterestId == existingUserInterest.Id && l.Url == request.url))
+            else if (await _ctx.Links.AnyAsync(l => l.UserInterestId == existingUserInterest.Id && l.Url == request.url))
             {
                 return BadRequest("Länken finns redan, välj annan länk.");
             }
             //If no link, create new one
             var addNewLink = new Link
             {
-                UserInterestId = existingUserInterest.Id,
+                //UserInterestId = existingUserInterest.Id,
                 Url = request.url
             };
 
-            await _ctx.Links.AddAsync(addNewLink);
+            //await _ctx.Links.AddAsync(addNewLink);
+            existingUserInterest.Links.Add(addNewLink);
             await _ctx.SaveChangesAsync();
 
             return Ok(addNewLink);
