@@ -89,11 +89,12 @@ namespace Labb3_API.Controllers
         public async Task<IActionResult>AddUsersInterest(int id, int interestId)
         {
             var userToUpdate = await _ctx.Users.FirstOrDefaultAsync(u => u.Id == id);
-            var interest = await _ctx.Interests.FirstOrDefaultAsync(i => i.Id == interestId);
             if (userToUpdate is null)
             {
                 return NotFound("User hittades inte");
             }
+
+            var interest = await _ctx.Interests.FirstOrDefaultAsync(i => i.Id == interestId);
             if (interest is null)
             {
                 return NotFound("Interest hittades inte");
@@ -119,7 +120,7 @@ namespace Labb3_API.Controllers
         [HttpPost("AddNewLink")]
         public async Task<IActionResult> AddLink(int userId, int interestId, string url)
         {
-            //prevent empty link 
+            //prevent empty link cell
             if (string.IsNullOrWhiteSpace(url))
             {
                 return BadRequest("Url får inte vara tom");
@@ -132,7 +133,7 @@ namespace Labb3_API.Controllers
             }
             //Check existing interest
             var interest = await _ctx.Interests.FirstOrDefaultAsync(i => i.Id == interestId);
-            if (user is null)
+            if (interest is null)
             {
                 return NotFound("Interest hittades inte");
             }
